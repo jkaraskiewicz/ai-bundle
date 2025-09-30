@@ -4,8 +4,8 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive \
     WORKSPACE=/workspace \
     USER=aidev \
-    UID=1000 \
-    GID=1000
+    UID=1001 \
+    GID=1001
 
 # Install system dependencies and tools
 RUN apt-get update && apt-get install -y \
@@ -36,8 +36,8 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user (handle existing GID gracefully)
-RUN (groupadd -g ${GID} ${USER} || true) \
+# Create non-root user
+RUN groupadd -g ${GID} ${USER} \
     && useradd -m -u ${UID} -g ${GID} -s /bin/zsh ${USER} \
     && echo "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USER} \
     && chmod 0440 /etc/sudoers.d/${USER}
