@@ -11,7 +11,11 @@ services:
       # Change './workspace' to your preferred local directory path
       - ./workspace:/workspace
       # Mount home directory to persist tool configurations and settings
-      - ./home:/root
+      - ./home:/home/aidev
+      # Mount gitconfig
+      - ./.gitconfig.template:/home/aidev/.gitconfig:ro
+      # Mount SSH keys for git operations (create ~/.ssh in host if needed)
+      - ${HOME}/.ssh:/home/aidev/.ssh:ro
     environment:
       # Add any API keys or environment variables here
       # - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
@@ -19,3 +23,9 @@ services:
     stdin_open: true
     tty: true
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "zsh", "-c", "echo healthy"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
