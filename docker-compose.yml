@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  ai-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-experimentation
+    volumes:
+      # Mount your local workspace directory to /workspace in the container
+      # Change './workspace' to your preferred local directory path
+      - ./workspace:/workspace
+      # Mount home directory to persist tool configurations and settings
+      - ./home:/root
+    environment:
+      # Add any API keys or environment variables here
+      # - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      # - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
