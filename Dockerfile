@@ -76,8 +76,8 @@ RUN sudo npm install -g @google/gemini-cli@nightly \
 # Copy gitconfig if it exists (will be mounted from host)
 RUN mkdir -p /home/${USER}/.config
 
-# Create workspace directory
-RUN mkdir -p ${WORKSPACE}
+# Create workspace directory (requires sudo as it's at root level)
+RUN sudo mkdir -p ${WORKSPACE} && sudo chown ${USER}:${USER} ${WORKSPACE}
 
 # Set working directory
 WORKDIR ${WORKSPACE}
