@@ -24,6 +24,18 @@ RUN apt-get update && apt-get install -y \
     sudo \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Node.js (required for some CLI tools) - needs root
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python and pip (required for some tools) - needs root
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-venv \
+    && rm -rf /var/lib/apt/lists/*
+
 # Create non-root user
 RUN groupadd -g ${GID} ${USER} \
     && useradd -m -u ${UID} -g ${GID} -s /bin/zsh ${USER} \
@@ -50,18 +62,6 @@ RUN git clone --recursive https://github.com/sorin-ionescu/prezto.git /home/${US
     && ln -s /home/${USER}/.zprezto/runcoms/zprofile /home/${USER}/.zprofile \
     && ln -s /home/${USER}/.zprezto/runcoms/zshenv /home/${USER}/.zshenv \
     && ln -s /home/${USER}/.zprezto/runcoms/zshrc /home/${USER}/.zshrc
-
-# Install Node.js (required for some CLI tools)
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python and pip (required for some tools)
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-venv \
-    && rm -rf /var/lib/apt/lists/*
 
 # Install uv (fast Python package installer)
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
