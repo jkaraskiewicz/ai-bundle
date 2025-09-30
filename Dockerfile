@@ -56,6 +56,7 @@ RUN cargo install sd
 
 # Install zprezto
 RUN git clone --recursive https://github.com/sorin-ionescu/prezto.git /home/${USER}/.zprezto \
+    && rm -f /home/${USER}/.zshenv /home/${USER}/.zshrc \
     && ln -s /home/${USER}/.zprezto/runcoms/zlogin /home/${USER}/.zlogin \
     && ln -s /home/${USER}/.zprezto/runcoms/zlogout /home/${USER}/.zlogout \
     && ln -s /home/${USER}/.zprezto/runcoms/zpreztorc /home/${USER}/.zpreztorc \
