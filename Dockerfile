@@ -67,8 +67,8 @@ RUN git clone --recursive https://github.com/sorin-ionescu/prezto.git /home/${US
 # Install uv (fast Python package installer)
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Install AI CLI tools via npm
-RUN npm install -g @google/gemini-cli@nightly \
+# Install AI CLI tools via npm (requires sudo for global install)
+RUN sudo npm install -g @google/gemini-cli@nightly \
     @anthropic-ai/claude-code \
     @charmland/crush \
     opencode-ai
