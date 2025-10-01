@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     lsb-release \
     unzip \
+    zip \
     zsh \
     neovim \
     sudo \
