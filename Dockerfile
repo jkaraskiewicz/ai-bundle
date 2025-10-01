@@ -67,6 +67,14 @@ RUN git clone --recursive https://github.com/sorin-ionescu/prezto.git /home/${US
 # Install uv (fast Python package installer)
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
+# Install SDKMAN and use it to install Gradle and Kotlin
+RUN curl -s "https://get.sdkman.io" | bash \
+    && bash -c "source /home/${USER}/.sdkman/bin/sdkman-init.sh \
+    && sdk install gradle \
+    && sdk install kotlin"
+
+ENV PATH="/home/${USER}/.sdkman/candidates/gradle/current/bin:/home/${USER}/.sdkman/candidates/kotlin/current/bin:${PATH}"
+
 # Install AI CLI tools via npm (requires sudo for global install)
 RUN sudo npm install -g @google/gemini-cli@nightly \
     @anthropic-ai/claude-code \
