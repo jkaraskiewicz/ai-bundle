@@ -30,11 +30,13 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python and pip (required for some tools) - needs root
+# Install Python, Gradle, and Kotlin - needs root
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     python3-venv \
+    gradle \
+    kotlin \
     && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
@@ -67,14 +69,6 @@ RUN git clone --recursive https://github.com/sorin-ionescu/prezto.git /home/${US
 
 # Install uv (fast Python package installer)
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Install SDKMAN and use it to install Gradle and Kotlin
-RUN curl -s "https://get.sdkman.io" | bash \
-    && bash -c "source /home/${USER}/.sdkman/bin/sdkman-init.sh \
-    && sdk install gradle \
-    && sdk install kotlin"
-
-ENV PATH="/home/${USER}/.sdkman/candidates/gradle/current/bin:/home/${USER}/.sdkman/candidates/kotlin/current/bin:${PATH}"
 
 # Install AI CLI tools via npm (requires sudo for global install)
 RUN sudo npm install -g @google/gemini-cli@nightly \
