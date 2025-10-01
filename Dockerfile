@@ -73,8 +73,10 @@ RUN sudo npm install -g @google/gemini-cli@nightly \
     @charmland/crush \
     opencode-ai
 
-# Copy gitconfig if it exists (will be mounted from host)
-RUN mkdir -p /home/${USER}/.config
+# Clone neovim config from dot-configs repo
+RUN git clone https://github.com/jkaraskiewicz/dot-configs.git /home/${USER}/.dot-configs \
+    && mkdir -p /home/${USER}/.config \
+    && ln -s /home/${USER}/.dot-configs/neovim/dot_config/nvim /home/${USER}/.config/nvim
 
 # Create workspace directory (requires sudo as it's at root level)
 RUN sudo mkdir -p ${WORKSPACE} && sudo chown ${USER}:${USER} ${WORKSPACE}
